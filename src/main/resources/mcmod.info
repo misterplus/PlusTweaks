@@ -5,7 +5,7 @@
     "description": "Provides some random tweaks.",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/plus-tweaks",
     "updateUrl": "",
     "authorList": ["MisterPlus"],
     "credits": "",
