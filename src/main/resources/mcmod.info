@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "plustweaks",
+    "name": "PlusTweaks",
+    "description": "Provides some random tweaks.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["MisterPlus"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
