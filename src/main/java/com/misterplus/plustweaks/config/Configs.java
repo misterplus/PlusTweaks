@@ -13,14 +13,14 @@ public class Configs {
     public static GenericSettings genericSettings = new GenericSettings();
 
     public static class PortalSettings {
-        @Config.Comment("Prevent the End Portal from spawning after the Ender Dragon is dead")
+        @Config.Comment("Prevent the End Portal from spawning after the Ender Dragon is dead (default: true)")
         public boolean noEndPortal = true;
-        @Config.Comment("Prevent the Nether Portal from igniting")
+        @Config.Comment("Prevent the Nether Portal from igniting (default: true)")
         public boolean noNetherPortal = true;
     }
 
     public static class GenericSettings {
-        @Config.Comment("Disable vanilla cobblestone generator")
-        public boolean noCobbleGen = true;
+        @Config.Comment("The block that vanilla cobblegen produces, leave empty to disable cobblegen completely (default: minecraft:cobblestone)")
+        public String cobbleGenResult = "minecraft:cobblestone";
     }
 }
