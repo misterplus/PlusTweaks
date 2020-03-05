@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldGenEndPodium.class)
-public class MixinWorldGenEndPodium {
+public abstract class MixinWorldGenEndPodium {
 
     @Shadow @Final @Mutable
     private boolean activePortal;
