@@ -2,20 +2,21 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://repo.spongepowered.org/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'org.spongepowered.mixin'
 
-
-version = "1.0.0"
+version = "1.1.0"
 group = "com.misterplus.plustweaks"
 archivesBaseName = "plustweaks"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
@@ -24,10 +25,21 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
     mappings = "stable_39"
-    coreMod = "com.misterplus.plustweaks.coremod.PlusTweaksLoader"
+    coreMod = "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin"
+}
+
+repositories {
+    maven { url 'http://maven.blamejared.com' }
+    maven { url = "https://repo.spongepowered.org/maven" }
 }
 
 dependencies {
+    deobfCompile 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.554'
+    provided('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
 }
 
 processResources {
@@ -40,11 +52,23 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 jar {
-    manifest {
-        attributes 'FMLCorePlugin': 'com.misterplus.plustweaks.coremod.PlusTweaksLoader'
-        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    from configurations.provided.asFileTree.files.collect {
+        zipTree(it)
     }
+    manifest {
+        attributes "FMLAT": "plustweaks_at.cfg"
+        attributes "FMLCorePlugin": "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin"
+        attributes "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
+        attributes "TweakOrder": 0
+        attributes "FMLCorePluginContainsFMLMod": true
+        attributes "ForceLoadAsMod": true
+    }
+}
+
+mixin {
+    add sourceSets.main, "mixins.plustweaks.refmap.json"
 }

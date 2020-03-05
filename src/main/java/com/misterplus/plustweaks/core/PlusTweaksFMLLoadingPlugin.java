@@ -1,14 +1,14 @@
-package com.misterplus.plustweaks.coremod;
+package com.misterplus.plustweaks.core;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
-public class PlusTweaksLoader implements IFMLLoadingPlugin {
-
+public class PlusTweaksFMLLoadingPlugin implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {PlusTweaksASMTransformer.class.getName()};
+        return new String[0];
     }
 
     @Override
@@ -16,13 +16,15 @@ public class PlusTweaksLoader implements IFMLLoadingPlugin {
         return null;
     }
 
+    @Nullable
     @Override
     public String getSetupClass() {
-        return null;
+        return PlusTweaksFMLSetupHook.class.getName();
     }
 
     @Override
     public void injectData(Map<String, Object> data) {
+
     }
 
     @Override
