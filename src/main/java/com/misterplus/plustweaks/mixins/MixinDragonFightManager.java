@@ -1,6 +1,5 @@
 package com.misterplus.plustweaks.mixins;
 
-import com.misterplus.plustweaks.config.Configs;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +23,7 @@ public abstract class MixinDragonFightManager {
             ),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
+    @SuppressWarnings("rawtypes")
     private void injectRespawnDragon(CallbackInfo ci, BlockPos blockpos, List<EntityEnderCrystal> list1, BlockPos blockpos1, Iterator var4, EnumFacing enumfacing, List<EntityEnderCrystal> list) {
         list.removeIf(crystal -> crystal.getDistanceSqToCenter(blockpos1) != 9.25);
     }

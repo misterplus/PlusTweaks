@@ -1,6 +1,5 @@
 package com.misterplus.plustweaks.mixins;
 
-import com.misterplus.plustweaks.config.Configs;
 import net.minecraft.world.gen.feature.WorldGenEndPodium;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -27,7 +27,7 @@ public class Configs {
         @Comment("The block that vanilla cobblegen produces, leave empty to disable cobblegen completely (default: minecraft:cobblestone)")
         public String cobbleGenResult = "minecraft:cobblestone";
         @RequiresMcRestart
-        @Comment("Prevent players from placing two ender crystals diagonally to spawn the ender dragon (default: true)")
+        @Comment("Force ender dragon respawn to check for 4 crystals on the axises (default: true)")
         public boolean strictDragon = true;
     }
 }
