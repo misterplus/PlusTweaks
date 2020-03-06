@@ -26,13 +26,13 @@ public class LiquidInteraction {
         this.block = CraftTweakerMC.getBlock(block);
     }
 
-    private static ResourceLocation getRegisteryName(ILiquidStack liquidStack) {
-        return CraftTweakerMC.getLiquidStack(liquidStack).getFluid().getBlock().getRegistryName();
-    }
-    
     @ZenMethod
     public static void registerLiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, IItemStack block) {
         LiquidInteraction interaction = new LiquidInteraction(liquid1, liquid2, block);
         ctInteractions.add(interaction);
+    }
+
+    private static ResourceLocation getRegisteryName(ILiquidStack liquidStack) {
+        return CraftTweakerMC.getLiquidStack(liquidStack).getFluid().getBlock().getRegistryName();
     }
 }
