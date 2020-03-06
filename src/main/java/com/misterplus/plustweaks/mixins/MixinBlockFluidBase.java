@@ -12,8 +12,10 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
@@ -26,22 +28,18 @@ public abstract class MixinBlockFluidBase extends Block{
         super(Material.AIR);
     }
 
-    @Shadow @Final protected Fluid definedFluid;
-    @Shadow @Final public static PropertyInteger LEVEL;
-    @Shadow protected int tickRate;
+    @Shadow(remap = false) @Final protected Fluid definedFluid;
+    @Shadow(remap = false) @Final public static PropertyInteger LEVEL;
 
-    /**
-     * @author MisterPlus
-     * @reason Inject won't generate refmap
-     */
-    @Overwrite
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
+    @Inject(
+            method = "neighborChanged",
+            at = @At("HEAD")
+    )
+    public void injectNeighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos, CallbackInfo ci) {
         boolean flag = false;
-
+        if (!world.getBlockState(neighbourPos).getMaterial().isLiquid())
+            return;
         for (LiquidInteraction interaction : ctInteractions) {
-            if (!world.getBlockState(neighbourPos).getMaterial().isLiquid()) {
-                break;
-            }
             for (EnumFacing enumfacing : EnumFacing.values())
             {
                 if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1) && Objects.equals(world.getBlockState(neighbourPos).getBlock().getRegistryName(), interaction.liquid2))
@@ -59,6 +57,5 @@ public abstract class MixinBlockFluidBase extends Block{
                 }
             }
         }
-        world.scheduleUpdate(pos, this, tickRate);
     }
 }
