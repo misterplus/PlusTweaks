@@ -61,7 +61,6 @@ public abstract class MixinBlockLiquid extends Block{
     private void injectCheckForMixing$2(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
         boolean flagPlus = false;
         for (LiquidInteraction interaction : ctInteractions) {
-
             for (EnumFacing enumfacing : EnumFacing.values())
             {
                 if (!worldIn.getBlockState(pos.offset(enumfacing)).getMaterial().isLiquid())

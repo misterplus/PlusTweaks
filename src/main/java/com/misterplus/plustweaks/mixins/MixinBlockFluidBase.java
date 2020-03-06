@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-
 import java.util.Objects;
 
 import static com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction.ctInteractions;
@@ -38,10 +37,10 @@ public abstract class MixinBlockFluidBase extends Block{
     @SuppressWarnings("deprecation")
     @Overwrite
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
-        boolean flag = false;
         if (!world.getBlockState(neighbourPos).getMaterial().isLiquid())
             return;
         for (LiquidInteraction interaction : ctInteractions) {
+            boolean flag = false;
             for (EnumFacing enumfacing : EnumFacing.values())
             {
                 if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1) && Objects.equals(world.getBlockState(neighbourPos).getBlock().getRegistryName(), interaction.liquid2))
