@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
+import static com.misterplus.plustweaks.PlusTweaks.MOD_NAME;
+
 @Mod.EventBusSubscriber(modid = PlusTweaks.MOD_ID)
 public class EventHandler {
     public static boolean DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
@@ -22,12 +24,13 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static final void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        event.player.sendMessage(new TextComponentString("11111111111111111111111"));
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!VALID_JAR)
+            event.player.sendMessage(new TextComponentString(String.format("[%s]Your copy of PlusTweaks is invalid, the author is not responsible for any bugs that might occur with this build.",MOD_NAME)));
     }
 
     @Mod.EventHandler
-    public static final void onInvalidCertificate(FMLFingerprintViolationEvent event) {
+    public static void onInvalidCertificate(FMLFingerprintViolationEvent event) {
         if (!DEV_ENV)
             VALID_JAR = false;
     }
