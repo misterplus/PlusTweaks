@@ -12,10 +12,9 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 
 import java.util.Objects;
 
@@ -24,18 +23,21 @@ import static com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction.c
 @Mixin(BlockFluidBase.class)
 public abstract class MixinBlockFluidBase extends Block{
 
-    private MixinBlockFluidBase() {
+    private MixinBlockFluidBase(){
         super(Material.AIR);
     }
 
+    @Shadow(remap = false) protected int tickRate;
     @Shadow(remap = false) @Final protected Fluid definedFluid;
     @Shadow(remap = false) @Final public static PropertyInteger LEVEL;
 
-    @Inject(
-            method = "neighborChanged",
-            at = @At("HEAD")
-    )
-    public void injectNeighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos, CallbackInfo ci) {
+    /**
+     * @author MisterPlus
+     * @reason neighborChanged is deprecated in Block
+     */
+    @SuppressWarnings("deprecation")
+    @Overwrite
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
         boolean flag = false;
         if (!world.getBlockState(neighbourPos).getMaterial().isLiquid())
             return;
@@ -57,5 +59,6 @@ public abstract class MixinBlockFluidBase extends Block{
                 }
             }
         }
+        world.scheduleUpdate(pos, this, tickRate);
     }
 }

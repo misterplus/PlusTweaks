@@ -49,10 +49,6 @@ processResources {
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 jar {
@@ -60,7 +56,6 @@ jar {
         zipTree(it)
     }
     manifest {
-        attributes "FMLAT": "plustweaks_at.cfg"
         attributes "FMLCorePlugin": "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin"
         attributes "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
         attributes "TweakOrder": 0

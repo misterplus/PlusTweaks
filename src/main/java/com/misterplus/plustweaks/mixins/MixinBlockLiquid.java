@@ -55,10 +55,7 @@ public abstract class MixinBlockLiquid extends Block{
 
     @Inject(
             method = "checkForMixing",
-            at = @At(
-                    value = "RETURN",
-                    ordinal = 2
-            ),
+            at = @At("TAIL"),
             cancellable = true
     )
     private void injectCheckForMixing$2(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
