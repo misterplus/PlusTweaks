@@ -20,5 +20,4 @@ build
 # other
 eclipse
 run
-/plustweaks.jks
-/gradle.properties
+*.jks
