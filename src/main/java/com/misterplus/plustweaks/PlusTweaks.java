@@ -9,7 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import static com.misterplus.plustweaks.config.Configs.genericSettings;
 
-@Mod(modid = PlusTweaks.MOD_ID, name = PlusTweaks.MOD_NAME, version = PlusTweaks.VERSION)
+@Mod(
+        modid = PlusTweaks.MOD_ID,
+        name = PlusTweaks.MOD_NAME,
+        version = PlusTweaks.VERSION,
+        certificateFingerprint = "@FINGERPRINT@"
+)
 public class PlusTweaks {
     public static final String MOD_ID = "plustweaks";
     public static final String MOD_NAME = "PlusTweaks";

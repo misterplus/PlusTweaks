@@ -5,6 +5,9 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+import static net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.*;
+
+@MCVersion("1.12.2")
 public class PlusTweaksFMLLoadingPlugin implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {

@@ -26,6 +26,8 @@ minecraft {
     runDir = "run"
     mappings = "stable_39"
     coreMod = "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin"
+    replace '@FINGERPRINT@', project.findProperty('signSHA1')
+    replaceIn "PlusTweaks.java"
 }
 
 repositories {
@@ -67,3 +69,17 @@ jar {
 mixin {
     add sourceSets.main, "mixins.plustweaks.refmap.json"
 }
+
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+build.dependsOn signJar
