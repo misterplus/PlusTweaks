@@ -21,6 +21,6 @@ public abstract class MixinWorldGenEndPodium {
             at = @At("RETURN")
     )
     private void injectWorldGenEndPodium(CallbackInfo callbackInfo) {
-        this.activePortal = !Configs.portalSettings.noEndPortal && this.activePortal;
+        this.activePortal = false;
     }
 }
