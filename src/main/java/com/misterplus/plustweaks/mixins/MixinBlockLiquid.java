@@ -14,40 +14,44 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
+import static com.misterplus.plustweaks.PlusTweaks.blockCool;
 import static com.misterplus.plustweaks.PlusTweaks.blockGen;
 import static com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction.ctInteractions;
 
 @Mixin(BlockLiquid.class)
-public abstract class MixinBlockLiquid extends Block{
+public abstract class MixinBlockLiquid extends Block {
 
-    private MixinBlockLiquid() {
+    public MixinBlockLiquid() {
         super(Material.AIR);
     }
 
-    @Shadow
-    protected abstract void triggerMixEffects(World worldIn, BlockPos pos);
-
-    @Inject(
+    @Redirect(
             method = "checkForMixing",
             at = @At(
-                    value = "FIELD",
-                    target = "net/minecraft/init/Blocks.COBBLESTONE:Lnet/minecraft/block/Block;"
-            ),
-            cancellable = true
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;)Z",
+                    ordinal = 0
+            )
     )
-    private void injectCheckForMixing(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (blockGen != null) {
-            worldIn.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, blockGen.getDefaultState()));
-            this.triggerMixEffects(worldIn, pos);
-            cir.setReturnValue(true);
-        }
-        else {
-            cir.setReturnValue(false);
-        }
+    private boolean redirect_checkForMixing(World world, BlockPos pos, IBlockState state) {
+        return blockCool != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockCool.getDefaultState()));
+    }
+
+    @Redirect(
+            method = "checkForMixing",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;)Z",
+                    ordinal = 1
+            )
+    )
+    private boolean redirect_checkForMixing$2(World world, BlockPos pos, IBlockState state) {
+        return blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockGen.getDefaultState()));
     }
 
     @Shadow @Final
@@ -58,7 +62,7 @@ public abstract class MixinBlockLiquid extends Block{
             at = @At("TAIL"),
             cancellable = true
     )
-    private void injectCheckForMixing$2(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
+    private void injectCheckForMixing(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
         boolean flagPlus = false;
         for (LiquidInteraction interaction : ctInteractions) {
             for (EnumFacing enumfacing : EnumFacing.values())
@@ -73,8 +77,12 @@ public abstract class MixinBlockLiquid extends Block{
             }
             if (flagPlus)
             {
-                Integer integer = state.getValue(LEVEL);
-                if (integer != 0) {
+                int integer = state.getValue(LEVEL);
+                if (integer == 0 && interaction.sourceInteraction) {
+                    worldIn.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, interaction.block.getDefaultState()));
+                    cir.setReturnValue(true);
+                }
+                else if (integer != 0 && !interaction.sourceInteraction) {
                     worldIn.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, interaction.block.getDefaultState()));
                     cir.setReturnValue(true);
                 }

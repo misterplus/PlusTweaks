@@ -11,6 +11,7 @@
     "MixinBlockFluidBase",
     "MixinDragonFightManager",
     "MixinBlockReed",
-    "MixinBlockCactus"
+    "MixinBlockCactus",
+    "MixinBlockDynamicLiquid"
   ]
 }

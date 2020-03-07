@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(BlockCactus.class)
-public class MixinBlockCactus {
+public abstract class MixinBlockCactus {
     @ModifyConstant(
             method = "updateTick",
             constant = @Constant(intValue = 3)

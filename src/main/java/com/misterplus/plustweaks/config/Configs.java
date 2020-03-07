@@ -30,6 +30,14 @@ public class Configs {
         public String cobbleGenResult = "minecraft:cobblestone";
 
         @RequiresMcRestart
+        @Comment("The block that lava source block gets replaced with when touching water, leave empty to disable lava cooling (default: minecraft:obsidian)")
+        public String lavaCoolResult = "minecraft:obsidian";
+
+        @RequiresMcRestart
+        @Comment("The block that water source block gets replaced with when touching lava, leave empty to disable water solidifying (default: minecraft:stone)")
+        public String waterSolidifyResult = "minecraft:stone";
+
+        @RequiresMcRestart
         @Comment("Force ender dragon respawn to check for 4 crystals on the axises (default: true)")
         public boolean strictDragon = true;
 

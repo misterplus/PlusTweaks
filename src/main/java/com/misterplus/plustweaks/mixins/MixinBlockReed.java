@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(BlockReed.class)
-public class MixinBlockReed {
+public abstract class MixinBlockReed {
     @ModifyConstant(
             method = "updateTick",
             constant = @Constant(intValue = 3)

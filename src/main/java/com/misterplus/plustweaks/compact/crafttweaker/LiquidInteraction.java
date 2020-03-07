@@ -7,6 +7,7 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -21,15 +22,17 @@ public class LiquidInteraction {
 
     public final ResourceLocation liquid1, liquid2;
     public final Block block;
+    public final boolean sourceInteraction;
 
-    public LiquidInteraction(ResourceLocation liquid1, ResourceLocation liquid2, Block block) {
+    public LiquidInteraction(ResourceLocation liquid1, ResourceLocation liquid2, Block block, boolean sourceInteraction) {
         this.liquid1 = liquid1;
         this.liquid2 = liquid2;
         this.block = block;
+        this.sourceInteraction = sourceInteraction;
     }
 
     @ZenMethod
-    public static void registerLiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, IItemStack block) {
-        CraftTweakerAPI.apply(new ActionRegisterLiquidInteraction(liquid1, liquid2, block));
+    public static void registerLiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, IItemStack block, @Optional boolean sourceInteraction) {
+        CraftTweakerAPI.apply(new ActionRegisterLiquidInteraction(liquid1, liquid2, block, sourceInteraction));
     }
 }

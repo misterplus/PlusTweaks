@@ -51,8 +51,12 @@ public abstract class MixinBlockFluidBase extends Block{
             }
             if (flag)
             {
-                Integer integer = state.getValue(LEVEL);
-                if (integer != 0) {
+                int integer = state.getValue(LEVEL);
+                if (integer == 0 && interaction.sourceInteraction) {
+                    world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
+                    break;
+                }
+                else if (integer != 0 && !interaction.sourceInteraction) {
                     world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
                     break;
                 }
