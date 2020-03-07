@@ -18,9 +18,9 @@ import static com.misterplus.plustweaks.config.Configs.genericSettings;
 public class PlusTweaks {
     public static final String MOD_ID = "plustweaks";
     public static final String MOD_NAME = "PlusTweaks";
-    public static final String VERSION = "1.2.2";
+    public static final String VERSION = "1.2.3";
 
-    public static Logger logger = LogManager.getLogger(PlusTweaks.MOD_ID);
+    public static Logger logger = LogManager.getLogger(PlusTweaks.MOD_NAME);
 
     public static Block blockGen = null;
 
@@ -28,6 +28,9 @@ public class PlusTweaks {
     public static void postInit(FMLPostInitializationEvent event) {
         if (genericSettings.cobbleGenResult.length() > 0) {
             blockGen = Block.REGISTRY.getObject(new ResourceLocation(genericSettings.cobbleGenResult));
+            logger.info("Setting vanilla cobblegen result to: " + blockGen.getRegistryName());
         }
+        else
+            logger.info("Vanilla cobblegen was configured to be disabled!");
     }
 }

@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 
-version = "1.2.2"
+version = "1.2.3"
 group = "com.misterplus.plustweaks"
 archivesBaseName = "plustweaks"
 
@@ -57,13 +57,13 @@ jar {
     from configurations.provided.asFileTree.files.collect {
         zipTree(it)
     }
-    manifest {
-        attributes "FMLCorePlugin": "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin"
-        attributes "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
-        attributes "TweakOrder": 0
-        attributes "FMLCorePluginContainsFMLMod": true
-        attributes "ForceLoadAsMod": true
-    }
+    manifest.attributes([
+            "FMLCorePlugin": "com.misterplus.plustweaks.core.PlusTweaksFMLLoadingPlugin",
+            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "TweakOrder": 0,
+            "FMLCorePluginContainsFMLMod": true,
+            "ForceLoadAsMod": true
+    ])
 }
 
 mixin {

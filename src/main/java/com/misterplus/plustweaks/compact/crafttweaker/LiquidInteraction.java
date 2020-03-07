@@ -1,9 +1,10 @@
 package com.misterplus.plustweaks.compact.crafttweaker;
 
+import com.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction;
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -17,22 +18,18 @@ import java.util.List;
 public class LiquidInteraction {
 
     public static List<LiquidInteraction> ctInteractions = new LinkedList<>();
-    public final ResourceLocation liquid1, liquid2;
-    public final Block block;
 
-    public LiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, IItemStack block) {
-        this.liquid1 = getRegisteryName(liquid1);
-        this.liquid2 = getRegisteryName(liquid2);
-        this.block = CraftTweakerMC.getBlock(block);
+    public ResourceLocation liquid1, liquid2;
+    public Block block;
+
+    public LiquidInteraction(ResourceLocation liquid1, ResourceLocation liquid2, Block block) {
+        this.liquid1 = liquid1;
+        this.liquid2 = liquid2;
+        this.block = block;
     }
 
     @ZenMethod
     public static void registerLiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, IItemStack block) {
-        LiquidInteraction interaction = new LiquidInteraction(liquid1, liquid2, block);
-        ctInteractions.add(interaction);
-    }
-
-    private static ResourceLocation getRegisteryName(ILiquidStack liquidStack) {
-        return CraftTweakerMC.getLiquidStack(liquidStack).getFluid().getBlock().getRegistryName();
+        CraftTweakerAPI.apply(new ActionRegisterLiquidInteraction(liquid1, liquid2, block));
     }
 }
