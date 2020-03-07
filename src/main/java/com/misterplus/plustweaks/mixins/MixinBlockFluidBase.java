@@ -37,28 +37,28 @@ public abstract class MixinBlockFluidBase extends Block{
     @SuppressWarnings("deprecation")
     @Overwrite
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
-        if (!world.getBlockState(neighbourPos).getMaterial().isLiquid())
-            return;
-        for (LiquidInteraction interaction : ctInteractions) {
-            boolean flag = false;
-            for (EnumFacing enumfacing : EnumFacing.values())
-            {
-                if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1) && Objects.equals(world.getBlockState(neighbourPos).getBlock().getRegistryName(), interaction.liquid2))
+        if (world.getBlockState(neighbourPos).getMaterial().isLiquid()) {
+            for (LiquidInteraction interaction : ctInteractions) {
+                boolean flag = false;
+                for (EnumFacing enumfacing : EnumFacing.values())
                 {
-                    flag = true;
-                    break;
+                    if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1) && Objects.equals(world.getBlockState(neighbourPos).getBlock().getRegistryName(), interaction.liquid2))
+                    {
+                        flag = true;
+                        break;
+                    }
                 }
-            }
-            if (flag)
-            {
-                int integer = state.getValue(LEVEL);
-                if (integer == 0 && interaction.sourceInteraction) {
-                    world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
-                    break;
-                }
-                else if (integer != 0 && !interaction.sourceInteraction) {
-                    world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
-                    break;
+                if (flag)
+                {
+                    int integer = state.getValue(LEVEL);
+                    if (integer == 0 && interaction.sourceInteraction) {
+                        world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
+                        break;
+                    }
+                    else if (integer != 0 && !interaction.sourceInteraction) {
+                        world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
+                        break;
+                    }
                 }
             }
         }
