@@ -19,8 +19,8 @@ public class LiquidInteraction {
 
     public static List<LiquidInteraction> ctInteractions = new LinkedList<>();
 
-    public ResourceLocation liquid1, liquid2;
-    public Block block;
+    public final ResourceLocation liquid1, liquid2;
+    public final Block block;
 
     public LiquidInteraction(ResourceLocation liquid1, ResourceLocation liquid2, Block block) {
         this.liquid1 = liquid1;

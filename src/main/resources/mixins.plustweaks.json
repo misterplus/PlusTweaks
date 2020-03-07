@@ -9,6 +9,8 @@
     "MixinWorldGenEndPodium",
     "MixinBlockLiquid",
     "MixinBlockFluidBase",
-    "MixinDragonFightManager"
+    "MixinDragonFightManager",
+    "MixinBlockReed",
+    "MixinBlockCactus"
   ]
 }
