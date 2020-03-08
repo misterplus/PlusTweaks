@@ -14,6 +14,9 @@ public class Configs {
     @Comment("Config Settings for generic tweaks")
     public static GenericSettings genericSettings = new GenericSettings();
 
+    @Comment("Config Settings that I question why somebody would ever touch")
+    public static DangerousSettings dangerousSettings = new DangerousSettings();
+
     public static class PortalSettings {
         @RequiresMcRestart
         @Comment("Prevent the End Portal from spawning after the Ender Dragon is dead (default: true)")
@@ -50,5 +53,11 @@ public class Configs {
         @Comment("Maximum growth height for cactus (default: 3)")
         @RangeInt(min = 1, max = 254)
         public int cactusHeight = 3;
+    }
+
+    public static class DangerousSettings {
+        @RequiresMcRestart
+        @Comment("HEY GUYS IT'S NOT OP BECAUSE I CRAFTED IT")
+        public boolean disableTorcherino = true;
     }
 }

@@ -1,12 +1,12 @@
 package com.misterplus.plustweaks.mixins;
 
-import com.misterplus.plustweaks.config.Configs;
 import org.spongepowered.asm.lib.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static com.misterplus.plustweaks.config.Configs.*;
 
 public class MixinConfigPlugin implements IMixinConfigPlugin {
 
@@ -25,9 +25,9 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.equals(PREFIX + "MixinWorldGenEndPodium"))
-            return Configs.portalSettings.noEndPortal;
+            return portalSettings.noEndPortal;
         if (mixinClassName.equals(PREFIX + "MixinDragonFightManager"))
-            return Configs.genericSettings.strictDragon;
+            return genericSettings.strictDragon;
         return true;
     }
 
