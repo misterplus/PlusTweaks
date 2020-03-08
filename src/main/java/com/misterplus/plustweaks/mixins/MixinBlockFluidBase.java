@@ -2,6 +2,8 @@ package com.misterplus.plustweaks.mixins;
 
 import com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDynamicLiquid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
@@ -42,10 +44,13 @@ public abstract class MixinBlockFluidBase extends Block{
                 boolean flag = false;
                 for (EnumFacing enumfacing : EnumFacing.values())
                 {
-                    if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1) && Objects.equals(world.getBlockState(neighbourPos).getBlock().getRegistryName(), interaction.liquid2))
+                    if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1))
                     {
-                        flag = true;
-                        break;
+                        Block liquid = world.getBlockState(neighbourPos).getBlock();
+                        if((liquid instanceof BlockFluidBase && Objects.equals(liquid.getRegistryName(), interaction.liquid2)) || (liquid instanceof BlockDynamicLiquid && Objects.equals(BlockLiquid.getStaticBlock(world.getBlockState(neighbourPos).getMaterial()).getRegistryName(), interaction.liquid2))) {
+                            flag = true;
+                            break;
+                        }
                     }
                 }
                 if (flag)

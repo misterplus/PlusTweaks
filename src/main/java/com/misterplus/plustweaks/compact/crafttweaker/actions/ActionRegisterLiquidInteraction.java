@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 
 import static com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction.ctInteractions;
+import static com.misterplus.plustweaks.utils.UtilityMethods.getRegisteryName;
 
 public class ActionRegisterLiquidInteraction implements IAction {
 
@@ -21,10 +22,6 @@ public class ActionRegisterLiquidInteraction implements IAction {
         this.liquid2 = getRegisteryName(liquid2);
         this.block = block;
         this.sourceInteraction = sourceInteraction;
-    }
-
-    private static ResourceLocation getRegisteryName(ILiquidStack liquidStack) {
-        return CraftTweakerMC.getLiquidStack(liquidStack).getFluid().getBlock().getRegistryName();
     }
 
     @Override
