@@ -29,50 +29,24 @@ public class PlusTweaks {
 
     @Mod.EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
-        findBlockGen(genericSettings.cobbleGenResult);
-        findBlockCool(genericSettings.lavaCoolResult);
-        findBlockSolid(genericSettings.waterSolidifyResult);
-    }
-    
-    private static void findBlockGen(String block) {
-        if (block.length() > 0) {
-            blockGen = Block.REGISTRY.getObject(new ResourceLocation(block));
-            if(!blockGen.equals(Blocks.AIR))
-                logger.info("Setting vanilla cobblegen result to: " + blockGen.getRegistryName());
-            else {
-                blockGen = Blocks.COBBLESTONE;
-                logger.error(block + " does not exist! Returning to default...");
-            }
-        }
-        else
-            logger.info("Vanilla cobblegen was configured to be disabled!");
-    }
-    
-    private static void findBlockCool(String block) {
-        if (block.length() > 0) {
-            blockCool = Block.REGISTRY.getObject(new ResourceLocation(block));
-            if(!blockCool.equals(Blocks.AIR))
-                logger.info("Setting lava cooling result to: " + blockCool.getRegistryName());
-            else {
-                blockCool = Blocks.OBSIDIAN;
-                logger.error(block + " does not exist! Returning to default...");
-            }
-        }
-        else
-            logger.info("Lava cooling was configured to be disabled!");
+        blockGen = findBlock(genericSettings.cobbleGenResult, Blocks.COBBLESTONE, "Setting vanilla cobblegen result to: ", "Vanilla cobblegen was configured to be disabled!");
+        blockCool = findBlock(genericSettings.lavaCoolResult, Blocks.OBSIDIAN, "Setting lava cooling result to: ", "Lava cooling was configured to be disabled!");
+        blockSolid = findBlock(genericSettings.waterSolidifyResult, Blocks.STONE, "Setting water solidifying result to: ", "Water solidifying was configured to be disabled!");
     }
 
-    private static void findBlockSolid(String block) {
+    private static Block findBlock(String block, Block original, String success, String disabled) {
+        Block result = null;
         if (block.length() > 0) {
-            blockSolid = Block.REGISTRY.getObject(new ResourceLocation(block));
-            if(!blockSolid.equals(Blocks.AIR))
-                logger.info("Setting water solidifying result to: " + blockSolid.getRegistryName());
+            result = Block.REGISTRY.getObject(new ResourceLocation(block));
+            if(!result.equals(Blocks.AIR))
+                logger.info(success + result.getRegistryName());
             else {
-                blockSolid = Blocks.STONE;
+                result = original;
                 logger.error(block + " does not exist! Returning to default...");
             }
         }
         else
-            logger.info("Water solidifying was configured to be disabled!");
+            logger.info(disabled);
+        return result;
     }
 }
