@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -34,15 +35,17 @@ public class EventHandler {
     @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (Loader.isModLoaded("torcherino") && dangerousSettings.disableTorcherino) {
+        if (Loader.isModLoaded("torcherino") && dangerousSettings.disableTorcherino && !event.getWorld().isRemote) {
             IBlockState state = event.getWorld().getBlockState(event.getPos());
             Block block = state.getBlock();
             if (block instanceof BlockLanterino) {
                 event.getWorld().setBlockState(event.getPos(), Blocks.LIT_PUMPKIN.getStateFromMeta(block.getMetaFromState(state)));
+                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.plustweaks.torcherino"));
                 event.setCanceled(true);
             }
             else if (block instanceof BlockTorcherino) {
                 event.getWorld().setBlockState(event.getPos(), Blocks.TORCH.getStateFromMeta(block.getMetaFromState(state)));
+                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.plustweaks.torcherino"));
                 event.setCanceled(true);
             }
         }
