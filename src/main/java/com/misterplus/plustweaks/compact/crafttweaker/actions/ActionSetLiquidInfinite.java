@@ -1,14 +1,16 @@
 package com.misterplus.plustweaks.compact.crafttweaker.actions;
 
-import com.misterplus.plustweaks.compact.crafttweaker.LiquidProperties;
 import crafttweaker.IAction;
 import crafttweaker.api.liquid.ILiquidStack;
 import net.minecraft.util.ResourceLocation;
 
-import static com.misterplus.plustweaks.compact.crafttweaker.LiquidProperties.ctInfinites;
+import java.util.HashMap;
+
 import static com.misterplus.plustweaks.utils.UtilityMethods.getRegisteryName;
 
 public class ActionSetLiquidInfinite implements IAction {
+
+    public static HashMap<String, Boolean> infiniteLiquids = new HashMap<>();
 
     private final ResourceLocation liquid;
     private final boolean finite;
@@ -20,8 +22,7 @@ public class ActionSetLiquidInfinite implements IAction {
 
     @Override
     public void apply() {
-        LiquidProperties properties = new LiquidProperties(this.liquid, this.finite);
-        ctInfinites.add(properties);
+        infiniteLiquids.put(this.liquid.toString(), this.finite);
     }
 
     @Override

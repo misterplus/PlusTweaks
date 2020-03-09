@@ -4,7 +4,6 @@ import com.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidInf
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
-import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -17,14 +16,6 @@ import java.util.List;
 public class LiquidProperties {
 
     public static List<LiquidProperties> ctInfinites = new LinkedList<>();
-
-    public final ResourceLocation liquid;
-    public final boolean finite;
-
-    public LiquidProperties(ResourceLocation liquid, boolean finite) {
-        this.liquid = liquid;
-        this.finite = finite;
-    }
 
     @ZenMethod
     public static void setInfinite(ILiquidStack liquidStack, @Optional boolean finite) {

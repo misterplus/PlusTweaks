@@ -1,13 +1,10 @@
 package com.misterplus.plustweaks.mixins;
 
-import com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -17,9 +14,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.HashMap;
 import java.util.Objects;
 
-import static com.misterplus.plustweaks.compact.crafttweaker.LiquidInteraction.ctInteractions;
+import static com.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction.interactions;
+
 
 @Mixin(BlockFluidBase.class)
 public abstract class MixinBlockFluidBase extends Block{
@@ -39,34 +38,27 @@ public abstract class MixinBlockFluidBase extends Block{
     @SuppressWarnings("deprecation")
     @Overwrite
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
-        if (world.getBlockState(neighbourPos).getMaterial().isLiquid()) {
-            for (LiquidInteraction interaction : ctInteractions) {
-                boolean flag = false;
-                for (EnumFacing enumfacing : EnumFacing.values())
-                {
-                    if (enumfacing != EnumFacing.DOWN && Objects.equals(this.definedFluid.getBlock().getRegistryName(), interaction.liquid1))
-                    {
-                        Block liquid = world.getBlockState(neighbourPos).getBlock();
-                        if((liquid instanceof BlockFluidBase && Objects.equals(liquid.getRegistryName(), interaction.liquid2)) || (liquid instanceof BlockDynamicLiquid && Objects.equals(BlockLiquid.getStaticBlock(world.getBlockState(neighbourPos).getMaterial()).getRegistryName(), interaction.liquid2))) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-                if (flag)
-                {
-                    int integer = state.getValue(LEVEL);
-                    if (integer == 0 && interaction.sourceInteraction) {
-                        world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
-                        break;
-                    }
-                    else if (integer != 0 && !interaction.sourceInteraction) {
-                        world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, interaction.block.getDefaultState()));
-                        break;
-                    }
+        world.scheduleUpdate(pos, this, tickRate);
+        doInteraction(state, world, pos, neighborBlock, neighbourPos);
+    }
+
+    private void doInteraction(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighbourPos) {
+        if (!world.getBlockState(neighbourPos).getMaterial().isLiquid()) {
+            StringBuilder key = new StringBuilder(this.definedFluid.getBlock().getRegistryName() + ":");
+            String key$2 = null;
+            if (neighborBlock instanceof BlockFluidBase)
+                key$2 = Objects.requireNonNull(neighborBlock.getRegistryName()).toString();
+            else if (neighborBlock instanceof BlockLiquid) {
+                key$2 = Objects.requireNonNull(BlockLiquid.getStaticBlock(neighborBlock.getDefaultState().getMaterial()).getRegistryName()).toString();
+            }
+            key.append(key$2);
+            if (interactions.containsKey(key.toString())) {
+                HashMap<Integer, IBlockState> blockList = interactions.get(key.toString());
+                Integer integer = state.getValue(LEVEL);
+                if (blockList.containsKey(integer)) {
+                    world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockList.get(integer)));
                 }
             }
         }
-        world.scheduleUpdate(pos, this, tickRate);
     }
 }
