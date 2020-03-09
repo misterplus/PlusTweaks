@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.misterplus.plustweaks.PlusTweaks.blockCool;
 import static com.misterplus.plustweaks.PlusTweaks.blockGen;
@@ -57,8 +58,6 @@ public abstract class MixinBlockLiquid extends Block {
 
     @Shadow @Final
     public static PropertyInteger LEVEL;
-
-
     @Shadow public abstract int tickRate(World worldIn);
 
     @Inject(
@@ -69,25 +68,28 @@ public abstract class MixinBlockLiquid extends Block {
     private void injectCheckForMixing(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
         for (EnumFacing enumfacing : EnumFacing.values())
         {
-            if (!worldIn.getBlockState(pos.offset(enumfacing)).getMaterial().isLiquid())
+            if (!worldIn.getBlockState(pos.offset(enumfacing)).getMaterial().isLiquid() || enumfacing == EnumFacing.UP)
                 continue;
-            findBlock(worldIn, pos, enumfacing, cir);
+            String key = findKey(worldIn, pos, enumfacing);
+            BlockPos actualPos = pos;
+            if (key != null) {
+                if (!key.startsWith(Objects.requireNonNull(BlockDynamicLiquid.getStaticBlock(this.material).getRegistryName()).toString()))
+                    actualPos = pos.offset(enumfacing);
+                HashMap<Integer, IBlockState> blockList = interactions.get(key);
+                Integer integer = worldIn.getBlockState(actualPos).getValue(LEVEL);
+                if (blockList.containsKey(integer)) {
+                    worldIn.setBlockState(actualPos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, actualPos, actualPos, blockList.get(integer)));
+                    worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+                    cir.setReturnValue(true);
+                }
+            }
         }
     }
 
-    private void findBlock(World worldIn, BlockPos pos, EnumFacing enumfacing, CallbackInfoReturnable<Boolean> cir) {
+    private String findKey(World worldIn, BlockPos pos, EnumFacing enumfacing) {
         ResourceLocation liquid1 = BlockDynamicLiquid.getStaticBlock(this.material).getRegistryName();
         ResourceLocation liquid2 = worldIn.getBlockState(pos.offset(enumfacing)).getBlock().getRegistryName();
-        String key = (enumfacing == EnumFacing.DOWN) ? liquid2 + ":" + liquid1 : liquid1 + ":" + liquid2;
-        if (interactions.containsKey(key)) {
-            HashMap<Integer, IBlockState> blockList = interactions.get(key);
-            BlockPos actualPos = (enumfacing == EnumFacing.DOWN) ? pos.offset(enumfacing) : pos;
-            Integer integer = worldIn.getBlockState(actualPos).getValue(LEVEL);
-            if (blockList.containsKey(integer)) {
-                worldIn.setBlockState(actualPos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, actualPos, actualPos, blockList.get(integer)));
-                worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
-                cir.setReturnValue(true);
-            }
-        }
+        String key = liquid1 + ":" + liquid2;
+        return interactions.containsKey(key) ? key : (interactions.containsKey(liquid2 + ":" + liquid1) ? liquid2 + ":" + liquid1 : null);
     }
 }
