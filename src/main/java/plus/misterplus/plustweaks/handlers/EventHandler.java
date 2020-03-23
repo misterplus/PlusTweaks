@@ -26,6 +26,7 @@ import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidIn
 import java.util.Objects;
 
 import static plus.misterplus.plustweaks.config.Configs.dangerousSettings;
+import static plus.misterplus.plustweaks.utils.UtilityMethods.sendLocalizedMessage;
 
 @Mod.EventBusSubscriber(modid = PlusTweaks.MOD_ID)
 public class EventHandler {
@@ -46,12 +47,12 @@ public class EventHandler {
             Block block = state.getBlock();
             if (block instanceof BlockLanterino) {
                 event.getWorld().setBlockState(event.getPos(), Blocks.LIT_PUMPKIN.getStateFromMeta(block.getMetaFromState(state)));
-                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.plustweaks.torcherino"));
+                sendLocalizedMessage(event.getEntityPlayer(), "message.plustweaks.torcherino");
                 event.setCanceled(true);
             }
             else if (block instanceof BlockTorcherino) {
                 event.getWorld().setBlockState(event.getPos(), Blocks.TORCH.getStateFromMeta(block.getMetaFromState(state)));
-                event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.plustweaks.torcherino"));
+                sendLocalizedMessage(event.getEntityPlayer(), "message.plustweaks.torcherino");
                 event.setCanceled(true);
             }
         }
