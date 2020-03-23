@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks;
+package plus.misterplus.plustweaks;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.misterplus.plustweaks.config.Configs.dangerousSettings;
-import static com.misterplus.plustweaks.config.Configs.genericSettings;
+import static plus.misterplus.plustweaks.config.Configs.dangerousSettings;
+import static plus.misterplus.plustweaks.config.Configs.genericSettings;
 
 @Mod(
         modid = PlusTweaks.MOD_ID,

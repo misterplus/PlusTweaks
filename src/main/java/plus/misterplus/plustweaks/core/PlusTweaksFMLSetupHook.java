@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.core;
+package plus.misterplus.plustweaks.core;
 
 import net.minecraftforge.fml.relauncher.IFMLCallHook;
 import org.spongepowered.asm.launch.MixinBootstrap;

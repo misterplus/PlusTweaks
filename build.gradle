@@ -63,7 +63,8 @@ jar {
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "TweakOrder": 0,
             "FMLCorePluginContainsFMLMod": true,
-            "ForceLoadAsMod": true
+            "ForceLoadAsMod": true,
+            "FMLAT": "plustweaks_at.cfg"
     ])
 }
 

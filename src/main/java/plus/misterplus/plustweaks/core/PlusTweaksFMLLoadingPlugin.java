@@ -1,11 +1,11 @@
-package com.misterplus.plustweaks.core;
+package plus.misterplus.plustweaks.core;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
-import static net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.*;
+import static net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 
 @MCVersion("1.12.2")
 public class PlusTweaksFMLLoadingPlugin implements IFMLLoadingPlugin {

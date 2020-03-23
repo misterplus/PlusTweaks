@@ -1,7 +1,7 @@
-package com.misterplus.plustweaks.handlers;
+package plus.misterplus.plustweaks.handlers;
 
-import com.misterplus.plustweaks.PlusTweaks;
-import com.misterplus.plustweaks.config.Configs;
+import plus.misterplus.plustweaks.PlusTweaks;
+import plus.misterplus.plustweaks.config.Configs;
 import com.sci.torcherino.blocks.blocks.BlockLanterino;
 import com.sci.torcherino.blocks.blocks.BlockTorcherino;
 import net.minecraft.block.Block;
@@ -21,12 +21,11 @@ import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidInfinite;
 
 import java.util.Objects;
 
-import static com.misterplus.plustweaks.PlusTweaks.MOD_NAME;
-import static com.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidInfinite.infiniteLiquids;
-import static com.misterplus.plustweaks.config.Configs.dangerousSettings;
+import static plus.misterplus.plustweaks.config.Configs.dangerousSettings;
 
 @Mod.EventBusSubscriber(modid = PlusTweaks.MOD_ID)
 public class EventHandler {
@@ -60,12 +59,6 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onCreateFluidSource(BlockEvent.CreateFluidSourceEvent event) {
-        /*for (LiquidProperties properties : ctInfinites) {
-            Block block = event.getState().getBlock();
-            if ((block instanceof BlockFluidBase && (Objects.equals(block.getRegistryName(), properties.liquid))) || (block instanceof BlockDynamicLiquid && (Objects.equals(BlockDynamicLiquid.getStaticBlock(event.getState().getMaterial()).getRegistryName(), properties.liquid)))) {
-                event.setResult(properties.finite ? Event.Result.DENY : Event.Result.ALLOW);
-            }
-        }*/
         IBlockState state = event.getState();
         Block block = state.getBlock();
         String name = null;
@@ -75,15 +68,15 @@ public class EventHandler {
         else if (block instanceof BlockLiquid) {
             name = Objects.requireNonNull(BlockDynamicLiquid.getStaticBlock(state.getMaterial()).getRegistryName()).toString();
         }
-        if (infiniteLiquids.containsKey(name)) {
-            event.setResult(infiniteLiquids.get(name) ? Event.Result.DENY : Event.Result.ALLOW);
+        if (ActionSetLiquidInfinite.infiniteLiquids.containsKey(name)) {
+            event.setResult(ActionSetLiquidInfinite.infiniteLiquids.get(name) ? Event.Result.DENY : Event.Result.ALLOW);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!VALID_JAR)
-            event.player.sendMessage(new TextComponentString(String.format("[%s]Your copy of PlusTweaks is invalid, the author is not responsible for any bugs that might occur with this build.",MOD_NAME)));
+        if (!VALID_JAR && !event.player.getEntityWorld().isRemote)
+            event.player.sendMessage(new TextComponentString(String.format("[%s]Your copy of PlusTweaks is invalid, the author is not responsible for any bugs that might occur with this build.", PlusTweaks.MOD_NAME)));
     }
 
     @Mod.EventHandler

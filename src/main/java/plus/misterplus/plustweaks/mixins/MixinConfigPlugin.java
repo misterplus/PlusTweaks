@@ -1,12 +1,14 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import org.spongepowered.asm.lib.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
-import static com.misterplus.plustweaks.config.Configs.*;
+import static plus.misterplus.plustweaks.config.Configs.genericSettings;
+import static plus.misterplus.plustweaks.config.Configs.portalSettings;
 
 public class MixinConfigPlugin implements IMixinConfigPlugin {
 

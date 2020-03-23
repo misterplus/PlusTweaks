@@ -2,8 +2,8 @@
   "required": true,
   "refmap": "mixins.plustweaks.refmap.json",
   "minVersion": "0.7.11",
-  "package": "com.misterplus.plustweaks.mixins",
-  "plugin": "com.misterplus.plustweaks.mixins.MixinConfigPlugin",
+  "package": "plus.misterplus.plustweaks.mixins",
+  "plugin": "plus.misterplus.plustweaks.mixins.MixinConfigPlugin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinWorldGenEndPodium",

@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.state.IBlockState;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import static com.misterplus.plustweaks.PlusTweaks.blockSolid;
+import static plus.misterplus.plustweaks.PlusTweaks.blockSolid;
 
 @Mixin(BlockDynamicLiquid.class)
 public abstract class MixinBlockDynamicLiquid {

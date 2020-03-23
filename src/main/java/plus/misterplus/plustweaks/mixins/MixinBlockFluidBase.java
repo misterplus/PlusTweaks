@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction.interactions;
+import static plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction.interactions;
 
 
 @Mixin(BlockFluidBase.class)

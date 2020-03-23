@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import net.minecraft.world.gen.feature.WorldGenEndPodium;
 import org.spongepowered.asm.mixin.Final;

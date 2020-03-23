@@ -1,12 +1,11 @@
-package com.misterplus.plustweaks.compact.crafttweaker.actions;
+package plus.misterplus.plustweaks.compact.crafttweaker.actions;
 
 import crafttweaker.IAction;
 import crafttweaker.api.liquid.ILiquidStack;
 import net.minecraft.util.ResourceLocation;
+import plus.misterplus.plustweaks.utils.UtilityMethods;
 
 import java.util.HashMap;
-
-import static com.misterplus.plustweaks.utils.UtilityMethods.getRegisteryName;
 
 public class ActionSetLiquidInfinite implements IAction {
 
@@ -16,7 +15,7 @@ public class ActionSetLiquidInfinite implements IAction {
     private final boolean finite;
 
     public ActionSetLiquidInfinite(ILiquidStack liquidStack, boolean finite) {
-        this.liquid = getRegisteryName(liquidStack);
+        this.liquid = UtilityMethods.getRegisteryName(liquidStack);
         this.finite = finite;
     }
 

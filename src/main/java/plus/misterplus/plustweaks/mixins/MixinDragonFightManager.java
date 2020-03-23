@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.util.EnumFacing;

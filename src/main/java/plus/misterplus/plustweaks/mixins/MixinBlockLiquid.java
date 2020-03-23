@@ -1,4 +1,4 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
@@ -17,13 +17,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import plus.misterplus.plustweaks.PlusTweaks;
+import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction;
 
 import java.util.HashMap;
 import java.util.Objects;
-
-import static com.misterplus.plustweaks.PlusTweaks.blockCool;
-import static com.misterplus.plustweaks.PlusTweaks.blockGen;
-import static com.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction.interactions;
 
 @Mixin(BlockLiquid.class)
 public abstract class MixinBlockLiquid extends Block {
@@ -41,7 +39,7 @@ public abstract class MixinBlockLiquid extends Block {
             )
     )
     private boolean redirect_checkForMixing(World world, BlockPos pos, IBlockState state) {
-        return blockCool != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockCool.getDefaultState()));
+        return PlusTweaks.blockCool != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, PlusTweaks.blockCool.getDefaultState()));
     }
 
     @Redirect(
@@ -53,7 +51,7 @@ public abstract class MixinBlockLiquid extends Block {
             )
     )
     private boolean redirect_checkForMixing$2(World world, BlockPos pos, IBlockState state) {
-        return blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockGen.getDefaultState()));
+        return PlusTweaks.blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, PlusTweaks.blockGen.getDefaultState()));
     }
 
     @Shadow @Final
@@ -75,7 +73,7 @@ public abstract class MixinBlockLiquid extends Block {
             if (key != null) {
                 if (!key.startsWith(Objects.requireNonNull(BlockDynamicLiquid.getStaticBlock(this.material).getRegistryName()).toString()))
                     actualPos = pos.offset(enumfacing);
-                HashMap<Integer, IBlockState> blockList = interactions.get(key);
+                HashMap<Integer, IBlockState> blockList = ActionRegisterLiquidInteraction.interactions.get(key);
                 Integer integer = worldIn.getBlockState(actualPos).getValue(LEVEL);
                 if (blockList.containsKey(integer)) {
                     worldIn.setBlockState(actualPos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, actualPos, actualPos, blockList.get(integer)));
@@ -90,6 +88,6 @@ public abstract class MixinBlockLiquid extends Block {
         ResourceLocation liquid1 = BlockDynamicLiquid.getStaticBlock(this.material).getRegistryName();
         ResourceLocation liquid2 = worldIn.getBlockState(pos.offset(enumfacing)).getBlock().getRegistryName();
         String key = liquid1 + ":" + liquid2;
-        return interactions.containsKey(key) ? key : (interactions.containsKey(liquid2 + ":" + liquid1) ? liquid2 + ":" + liquid1 : null);
+        return ActionRegisterLiquidInteraction.interactions.containsKey(key) ? key : (ActionRegisterLiquidInteraction.interactions.containsKey(liquid2 + ":" + liquid1) ? liquid2 + ":" + liquid1 : null);
     }
 }

@@ -1,6 +1,6 @@
-package com.misterplus.plustweaks.compact.crafttweaker;
+package plus.misterplus.plustweaks.compact.crafttweaker;
 
-import com.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction;
+import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.block.IBlockState;

@@ -1,15 +1,14 @@
-package com.misterplus.plustweaks.compact.crafttweaker.actions;
+package plus.misterplus.plustweaks.compact.crafttweaker.actions;
 
 import crafttweaker.IAction;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
+import plus.misterplus.plustweaks.utils.UtilityMethods;
 
 import java.util.Arrays;
 import java.util.HashMap;
-
-import static com.misterplus.plustweaks.utils.UtilityMethods.getRegisteryName;
 
 public class ActionRegisterLiquidInteraction implements IAction {
 
@@ -20,8 +19,8 @@ public class ActionRegisterLiquidInteraction implements IAction {
     private final int[] levels;
 
     public ActionRegisterLiquidInteraction(ILiquidStack liquid1, ILiquidStack liquid2, crafttweaker.api.block.IBlockState block, int[] levels) {
-        this.liquid1 = getRegisteryName(liquid1);
-        this.liquid2 = getRegisteryName(liquid2);
+        this.liquid1 = UtilityMethods.getRegisteryName(liquid1);
+        this.liquid2 = UtilityMethods.getRegisteryName(liquid2);
         this.block = block;
         this.levels = levels;
     }

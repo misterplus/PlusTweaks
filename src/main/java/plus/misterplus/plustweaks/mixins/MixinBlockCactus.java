@@ -1,6 +1,6 @@
-package com.misterplus.plustweaks.mixins;
+package plus.misterplus.plustweaks.mixins;
 
-import com.misterplus.plustweaks.config.Configs;
+import plus.misterplus.plustweaks.config.Configs;
 import net.minecraft.block.BlockCactus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;

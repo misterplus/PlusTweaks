@@ -1,6 +1,6 @@
-package com.misterplus.plustweaks.config;
+package plus.misterplus.plustweaks.config;
 
-import com.misterplus.plustweaks.PlusTweaks;
+import plus.misterplus.plustweaks.PlusTweaks;
 import net.minecraftforge.common.config.Config;
 
 import static net.minecraftforge.common.config.Config.*;
