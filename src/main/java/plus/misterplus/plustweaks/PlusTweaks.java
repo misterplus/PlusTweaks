@@ -44,14 +44,13 @@ public class PlusTweaks {
         Block result = null;
         if (block.length() > 0) {
             result = Block.REGISTRY.getObject(new ResourceLocation(block));
-            if(!result.equals(Blocks.AIR))
+            if (!result.equals(Blocks.AIR))
                 logger.info(success + result.getRegistryName());
             else {
                 result = original;
                 logger.error(block + " does not exist! Returning to default...");
             }
-        }
-        else
+        } else
             logger.info(disabled);
         return result;
     }

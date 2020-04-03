@@ -28,7 +28,7 @@ public class ActionRegisterLiquidInteraction implements IAction {
     @Override
     public void apply() {
         HashMap<Integer, IBlockState> blockList = new HashMap<>();
-        for(Integer i : this.levels) {
+        for (Integer i : this.levels) {
             blockList.put(i, CraftTweakerMC.getBlockState(this.block));
         }
         interactions.put(this.liquid1 + ":" + this.liquid2, blockList);

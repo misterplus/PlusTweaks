@@ -21,15 +21,20 @@ import static plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegi
 
 
 @Mixin(BlockFluidBase.class)
-public abstract class MixinBlockFluidBase extends Block{
+public abstract class MixinBlockFluidBase extends Block {
 
-    private MixinBlockFluidBase(){
+    @Shadow(remap = false)
+    @Final
+    public static PropertyInteger LEVEL;
+    @Shadow(remap = false)
+    protected int tickRate;
+    @Shadow(remap = false)
+    @Final
+    protected Fluid definedFluid;
+
+    private MixinBlockFluidBase() {
         super(Material.AIR);
     }
-
-    @Shadow(remap = false) protected int tickRate;
-    @Shadow(remap = false) @Final protected Fluid definedFluid;
-    @Shadow(remap = false) @Final public static PropertyInteger LEVEL;
 
     /**
      * @author MisterPlus

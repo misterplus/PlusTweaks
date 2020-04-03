@@ -9,10 +9,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static plus.misterplus.plustweaks.config.Configs.portalSettings;
+
 @Mixin(WorldGenEndPodium.class)
 public abstract class MixinWorldGenEndPodium {
 
-    @Shadow @Final @Mutable
+    @Shadow
+    @Final
+    @Mutable
     private boolean activePortal;
 
     @Inject(
@@ -20,6 +24,6 @@ public abstract class MixinWorldGenEndPodium {
             at = @At("RETURN")
     )
     private void injectWorldGenEndPodium(CallbackInfo callbackInfo) {
-        this.activePortal = false;
+        this.activePortal = !portalSettings.noEndPortal && this.activePortal;
     }
 }

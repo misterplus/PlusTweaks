@@ -1,7 +1,7 @@
 package plus.misterplus.plustweaks.config;
 
-import plus.misterplus.plustweaks.PlusTweaks;
 import net.minecraftforge.common.config.Config;
+import plus.misterplus.plustweaks.PlusTweaks;
 
 import static net.minecraftforge.common.config.Config.*;
 
@@ -18,13 +18,11 @@ public class Configs {
     public static DangerousSettings dangerousSettings = new DangerousSettings();
 
     public static class PortalSettings {
-        @RequiresMcRestart
-        @Comment("Prevent the End Portal from spawning after the Ender Dragon is dead (default: true)")
-        public boolean noEndPortal = true;
+        @Comment("Prevent the End Portal from spawning after the Ender Dragon is dead (default: false)")
+        public boolean noEndPortal = false;
 
-        @RequiresMcRestart
-        @Comment("Prevent the Nether Portal from igniting (default: true)")
-        public boolean noNetherPortal = true;
+        @Comment("Prevent the Nether Portal from igniting (default: false)")
+        public boolean noNetherPortal = false;
     }
 
     public static class GenericSettings {
@@ -40,23 +38,19 @@ public class Configs {
         @Comment("The block that water source block gets replaced with when touching lava, leave empty to disable water solidifying (default: minecraft:stone)")
         public String waterSolidifyResult = "minecraft:stone";
 
-        @RequiresMcRestart
         @Comment("Force ender dragon respawn to check for 4 crystals on the axises (default: true)")
         public boolean strictDragon = true;
 
-        @RequiresMcRestart
         @Comment("Maximum growth height for sugarcane (default: 3)")
         @RangeInt(min = 1, max = 254)
         public int reedHeight = 3;
 
-        @RequiresMcRestart
         @Comment("Maximum growth height for cactus (default: 3)")
         @RangeInt(min = 1, max = 254)
         public int cactusHeight = 3;
     }
 
     public static class DangerousSettings {
-        @RequiresMcRestart
         @Comment("HEY GUYS IT'S NOT OP BECAUSE I CRAFTED IT")
         public boolean disableTorcherino = true;
     }

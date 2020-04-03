@@ -3,15 +3,15 @@
   "refmap": "mixins.plustweaks.refmap.json",
   "minVersion": "0.7.11",
   "package": "plus.misterplus.plustweaks.mixins",
-  "plugin": "plus.misterplus.plustweaks.mixins.MixinConfigPlugin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinWorldGenEndPodium",
-    "MixinBlockLiquid",
-    "MixinBlockFluidBase",
-    "MixinDragonFightManager",
-    "MixinBlockReed",
     "MixinBlockCactus",
-    "MixinBlockDynamicLiquid"
+    "MixinBlockDynamicLiquid",
+    "MixinBlockFluidBase",
+    "MixinBlockLiquid",
+    "MixinBlockReed",
+    "MixinDragonFightManager",
+    "MixinWorldGenEndPodium",
+    "MixinContainerEnchantment"
   ]
 }

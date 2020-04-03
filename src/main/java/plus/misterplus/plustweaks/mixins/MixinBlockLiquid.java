@@ -26,6 +26,10 @@ import java.util.Objects;
 @Mixin(BlockLiquid.class)
 public abstract class MixinBlockLiquid extends Block {
 
+    @Shadow
+    @Final
+    public static PropertyInteger LEVEL;
+
     public MixinBlockLiquid() {
         super(Material.AIR);
     }
@@ -54,9 +58,8 @@ public abstract class MixinBlockLiquid extends Block {
         return PlusTweaks.blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, PlusTweaks.blockGen.getDefaultState()));
     }
 
-    @Shadow @Final
-    public static PropertyInteger LEVEL;
-    @Shadow public abstract int tickRate(World worldIn);
+    @Shadow
+    public abstract int tickRate(World worldIn);
 
     @Inject(
             method = "checkForMixing",
@@ -64,8 +67,7 @@ public abstract class MixinBlockLiquid extends Block {
             cancellable = true
     )
     private void injectCheckForMixing(World worldIn, BlockPos pos, IBlockState state, CallbackInfoReturnable<Boolean> cir) {
-        for (EnumFacing enumfacing : EnumFacing.values())
-        {
+        for (EnumFacing enumfacing : EnumFacing.values()) {
             if (!worldIn.getBlockState(pos.offset(enumfacing)).getMaterial().isLiquid() || enumfacing == EnumFacing.UP)
                 continue;
             String key = findKey(worldIn, pos, enumfacing);

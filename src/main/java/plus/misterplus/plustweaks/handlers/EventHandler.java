@@ -1,7 +1,5 @@
 package plus.misterplus.plustweaks.handlers;
 
-import plus.misterplus.plustweaks.PlusTweaks;
-import plus.misterplus.plustweaks.config.Configs;
 import com.sci.torcherino.blocks.blocks.BlockLanterino;
 import com.sci.torcherino.blocks.blocks.BlockTorcherino;
 import net.minecraft.block.Block;
@@ -11,17 +9,21 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import plus.misterplus.plustweaks.PlusTweaks;
 import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidInfinite;
+import plus.misterplus.plustweaks.config.Configs;
 
 import java.util.Objects;
 
@@ -49,8 +51,7 @@ public class EventHandler {
                 event.getWorld().setBlockState(event.getPos(), Blocks.LIT_PUMPKIN.getStateFromMeta(block.getMetaFromState(state)));
                 sendLocalizedMessage(event.getEntityPlayer(), "message.plustweaks.torcherino");
                 event.setCanceled(true);
-            }
-            else if (block instanceof BlockTorcherino) {
+            } else if (block instanceof BlockTorcherino) {
                 event.getWorld().setBlockState(event.getPos(), Blocks.TORCH.getStateFromMeta(block.getMetaFromState(state)));
                 sendLocalizedMessage(event.getEntityPlayer(), "message.plustweaks.torcherino");
                 event.setCanceled(true);
@@ -65,8 +66,7 @@ public class EventHandler {
         String name = null;
         if (block instanceof BlockFluidBase) {
             name = Objects.requireNonNull(block.getRegistryName()).toString();
-        }
-        else if (block instanceof BlockLiquid) {
+        } else if (block instanceof BlockLiquid) {
             name = Objects.requireNonNull(BlockDynamicLiquid.getStaticBlock(state.getMaterial()).getRegistryName()).toString();
         }
         if (ActionSetLiquidInfinite.infiniteLiquids.containsKey(name)) {
@@ -84,5 +84,12 @@ public class EventHandler {
     public static void onInvalidCertificate(FMLFingerprintViolationEvent event) {
         if (!DEV_ENV)
             VALID_JAR = false;
+    }
+
+    @SubscribeEvent
+    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(PlusTweaks.MOD_ID)) {
+            ConfigManager.sync(PlusTweaks.MOD_ID, Config.Type.INSTANCE);
+        }
     }
 }

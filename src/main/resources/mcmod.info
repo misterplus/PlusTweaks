@@ -7,7 +7,9 @@
     "mcversion": "${mcversion}",
     "url": "https://www.curseforge.com/minecraft/mc-mods/plus-tweaks",
     "updateUrl": "",
-    "authorList": ["MisterPlus"],
+    "authorList": [
+      "MisterPlus"
+    ],
     "credits": "",
     "logoFile": "",
     "screenshots": [],

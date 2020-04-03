@@ -1,10 +1,10 @@
 package plus.misterplus.plustweaks.mixins;
 
-import plus.misterplus.plustweaks.config.Configs;
 import net.minecraft.block.BlockReed;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import plus.misterplus.plustweaks.config.Configs;
 
 @Mixin(BlockReed.class)
 public abstract class MixinBlockReed {

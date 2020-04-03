@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Iterator;
 import java.util.List;
 
+import static plus.misterplus.plustweaks.config.Configs.genericSettings;
+
 @Mixin(DragonFightManager.class)
 public abstract class MixinDragonFightManager {
     @Inject(
@@ -25,6 +27,6 @@ public abstract class MixinDragonFightManager {
     )
     @SuppressWarnings("rawtypes")
     private void injectRespawnDragon(CallbackInfo ci, BlockPos blockpos, List<EntityEnderCrystal> list1, BlockPos blockpos1, Iterator var4, EnumFacing enumfacing, List<EntityEnderCrystal> list) {
-        list.removeIf(crystal -> crystal.getDistanceSqToCenter(blockpos1) != 9.25);
+        list.removeIf(crystal -> genericSettings.strictDragon && crystal.getDistanceSqToCenter(blockpos1) != 9.25);
     }
 }
