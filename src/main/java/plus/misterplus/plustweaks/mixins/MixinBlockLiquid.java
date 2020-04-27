@@ -17,11 +17,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import plus.misterplus.plustweaks.PlusTweaks;
 import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiquidInteraction;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import static plus.misterplus.plustweaks.PlusTweaks.*;
 
 @Mixin(BlockLiquid.class)
 public abstract class MixinBlockLiquid extends Block {
@@ -43,7 +44,7 @@ public abstract class MixinBlockLiquid extends Block {
             )
     )
     private boolean redirect_checkForMixing(World world, BlockPos pos, IBlockState state) {
-        return PlusTweaks.blockCool != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, PlusTweaks.blockCool.getDefaultState()));
+        return blockCool != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockCool.getDefaultState()));
     }
 
     @Redirect(
@@ -55,7 +56,7 @@ public abstract class MixinBlockLiquid extends Block {
             )
     )
     private boolean redirect_checkForMixing$2(World world, BlockPos pos, IBlockState state) {
-        return PlusTweaks.blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, PlusTweaks.blockGen.getDefaultState()));
+        return blockGen != null && world.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, blockGen.getDefaultState()));
     }
 
     @Shadow

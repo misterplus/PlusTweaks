@@ -12,7 +12,7 @@ public class ActionEnchantmentLockByLevel implements IAction {
 
     public static HashMap<String, Map<IBlockState, Integer>> lockedLeveledEnchants = new HashMap<>();
     private final Map<net.minecraft.block.state.IBlockState, Integer> blocks;
-    private String enchantment;
+    private final String enchantment;
 
     public ActionEnchantmentLockByLevel(IEnchantment enchantment, Map<crafttweaker.api.block.IBlockState, Integer> blocks) {
         this.enchantment = enchantment.getDefinition().getRegistryName() + ":" + enchantment.getLevel();

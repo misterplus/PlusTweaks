@@ -49,7 +49,7 @@ public abstract class MixinContainerEnchantment extends Container {
         for (EnchantmentData enchantmentData : list) {
             String key1 = enchantmentData.enchantment.getRegistryName().toString();
             removeEnchantOnCondition(lockedEnchants, key1, enchantmentData, listToRemove);
-            String key2 = enchantmentData.enchantment.getRegistryName() + ":" + enchantmentData.enchantmentLevel;
+            String key2 = key1 + ":" + enchantmentData.enchantmentLevel;
             removeEnchantOnCondition(lockedLeveledEnchants, key2, enchantmentData, listToRemove);
         }
         list.removeAll(listToRemove);
@@ -57,7 +57,7 @@ public abstract class MixinContainerEnchantment extends Container {
 
     private void removeEnchantOnCondition(HashMap<String, Map<IBlockState, Integer>> map, String key, EnchantmentData enchantmentData, List<EnchantmentData> listToRemove) {
         if (map.containsKey(key)) {
-            boolean flag = true;
+            boolean flag = false;
             for (IBlockState iBlockState : map.get(key).keySet()) {
                 int i = 0;
                 for (BlockPos blockPos : BlockPos.getAllInBox(position.offset(EnumFacing.NORTH, 3).offset(EnumFacing.WEST, 3), position.offset(EnumFacing.SOUTH, 3).offset(EnumFacing.EAST, 3).offset(EnumFacing.UP, 1))) {
@@ -65,11 +65,11 @@ public abstract class MixinContainerEnchantment extends Container {
                         i++;
                 }
                 if (i < map.get(key).get(iBlockState)) {
-                    flag = false;
+                    flag = true;
                     break;
                 }
             }
-            if (!flag && !listToRemove.contains(enchantmentData))
+            if (flag && !listToRemove.contains(enchantmentData))
                 listToRemove.add(enchantmentData);
         }
     }
