@@ -22,7 +22,8 @@ import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionRegisterLiq
 import java.util.HashMap;
 import java.util.Objects;
 
-import static plus.misterplus.plustweaks.PlusTweaks.*;
+import static plus.misterplus.plustweaks.PlusTweaks.blockCool;
+import static plus.misterplus.plustweaks.PlusTweaks.blockGen;
 
 @Mixin(BlockLiquid.class)
 public abstract class MixinBlockLiquid extends Block {

@@ -17,6 +17,9 @@ public class Configs {
     @Comment("Config Settings that I question why somebody would ever touch")
     public static DangerousSettings dangerousSettings = new DangerousSettings();
 
+    @Comment("Config Settings related to worldgen")
+    public static WorldGenSettings worldGenSettings = new WorldGenSettings();
+
     public static class PortalSettings {
         @Comment("Prevent the End Portal from spawning after the Ender Dragon is dead (default: false)")
         public boolean noEndPortal = false;
@@ -48,6 +51,20 @@ public class Configs {
         @Comment("Maximum growth height for cactus (default: 3)")
         @RangeInt(min = 1, max = 254)
         public int cactusHeight = 3;
+    }
+
+    public static class WorldGenSettings {
+        @RequiresMcRestart
+        public boolean defaultToVoidWorldType = false;
+
+        @RequiresMcRestart
+        public boolean overworldVoid = false;
+
+        @RequiresMcRestart
+        public boolean netherVoid = false;
+
+        @RequiresMcRestart
+        public boolean endVoid = false;
     }
 
     public static class DangerousSettings {

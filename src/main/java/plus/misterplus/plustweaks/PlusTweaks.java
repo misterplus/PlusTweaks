@@ -3,14 +3,16 @@ package plus.misterplus.plustweaks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldType;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import plus.misterplus.plustweaks.common.world.WorldTypeVoid;
 
-import static plus.misterplus.plustweaks.config.Configs.dangerousSettings;
-import static plus.misterplus.plustweaks.config.Configs.genericSettings;
+import static plus.misterplus.plustweaks.config.Configs.*;
 
 @Mod(
         modid = PlusTweaks.MOD_ID,
@@ -22,13 +24,29 @@ import static plus.misterplus.plustweaks.config.Configs.genericSettings;
 public class PlusTweaks {
     public static final String MOD_ID = "plustweaks";
     public static final String MOD_NAME = "PlusTweaks";
-    public static final String VERSION = "1.3.8";
+    public static final String VERSION = "1.3.9";
 
     public static Logger logger = LogManager.getLogger(PlusTweaks.MOD_NAME);
 
     public static Block blockGen = null;
     public static Block blockCool = null;
     public static Block blockSolid = null;
+
+    @Mod.EventHandler
+    public static void init(FMLInitializationEvent event) {
+        new WorldTypeVoid();
+        WorldTypeVoid.registerWorldProviders();
+        if (worldGenSettings.defaultToVoidWorldType) {
+            for (int i = 0; i < WorldType.WORLD_TYPES.length; i++) {
+                if (WorldType.WORLD_TYPES[i] instanceof WorldTypeVoid) {
+                    WorldType temp = WorldType.WORLD_TYPES[0];
+                    WorldType.WORLD_TYPES[0] = WorldType.WORLD_TYPES[i];
+                    WorldType.WORLD_TYPES[i] = temp;
+                    break;
+                }
+            }
+        }
+    }
 
     @Mod.EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
