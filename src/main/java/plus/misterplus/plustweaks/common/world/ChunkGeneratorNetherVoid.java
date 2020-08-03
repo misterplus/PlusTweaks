@@ -8,8 +8,11 @@ import static plus.misterplus.plustweaks.config.Configs.worldGenSettings;
 
 public class ChunkGeneratorNetherVoid extends ChunkGeneratorHell {
 
+    World world;
+
     public ChunkGeneratorNetherVoid(World worldIn, long seed) {
         super(worldIn, false, seed);
+        world = worldIn;
     }
 
     @Override

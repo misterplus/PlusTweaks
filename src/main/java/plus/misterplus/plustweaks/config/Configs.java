@@ -54,15 +54,19 @@ public class Configs {
     }
 
     public static class WorldGenSettings {
+        @Comment("Set the default world type to plustweaks' void world (default: false)")
         @RequiresMcRestart
         public boolean defaultToVoidWorldType = false;
 
+        @Comment("Void World will have a void Overworld (default: false)")
         @RequiresMcRestart
         public boolean overworldVoid = false;
 
+        @Comment("Void World will have a void Nether (default: false)")
         @RequiresMcRestart
         public boolean netherVoid = false;
 
+        @Comment("Void World will have a void End (default: false)")
         @RequiresMcRestart
         public boolean endVoid = false;
     }

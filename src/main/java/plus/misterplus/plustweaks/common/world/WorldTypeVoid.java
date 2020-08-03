@@ -1,5 +1,6 @@
 package plus.misterplus.plustweaks.common.world;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -20,7 +21,7 @@ public class WorldTypeVoid extends WorldType {
     @Override
     public net.minecraft.world.gen.IChunkGenerator getChunkGenerator(World world, String generatorOptions)
     {
-        return new ChunkGeneratorOverworldVoid(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), generatorOptions);
+        return new ChunkGeneratorOverworldVoid(world, world.getSeed(), !worldGenSettings.overworldVoid, generatorOptions);
     }
 
     public static void registerWorldProviders()
