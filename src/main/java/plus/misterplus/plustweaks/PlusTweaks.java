@@ -1,7 +1,6 @@
 package plus.misterplus.plustweaks;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldType;
@@ -23,9 +22,10 @@ import static plus.misterplus.plustweaks.config.Configs.*;
         dependencies = "after:torcherino"
 )
 public class PlusTweaks {
+
     public static final String MOD_ID = "plustweaks";
     public static final String MOD_NAME = "PlusTweaks";
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.4.3";
 
     public static Logger logger = LogManager.getLogger(PlusTweaks.MOD_NAME);
 
@@ -73,4 +73,5 @@ public class PlusTweaks {
             logger.info(disabled);
         return result;
     }
+
 }

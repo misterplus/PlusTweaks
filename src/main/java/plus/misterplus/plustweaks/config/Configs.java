@@ -51,6 +51,9 @@ public class Configs {
         @Comment("Maximum growth height for cactus (default: 3)")
         @RangeInt(min = 1, max = 254)
         public int cactusHeight = 3;
+
+        @Comment("Enable fix for pigmen crashing bug? (default: false)")
+        public boolean pigmenBugFix = false;
     }
 
     public static class WorldGenSettings {

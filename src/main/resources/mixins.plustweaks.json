@@ -10,8 +10,9 @@
     "MixinBlockFluidBase",
     "MixinBlockLiquid",
     "MixinBlockReed",
+    "MixinContainerEnchantment",
     "MixinDragonFightManager",
-    "MixinWorldGenEndPodium",
-    "MixinContainerEnchantment"
+    "MixinEntity",
+    "MixinWorldGenEndPodium"
   ]
 }
