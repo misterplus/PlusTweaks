@@ -8,11 +8,8 @@ import static plus.misterplus.plustweaks.config.Configs.worldGenSettings;
 
 public class ChunkGeneratorNetherVoid extends ChunkGeneratorHell {
 
-    World world;
-
     public ChunkGeneratorNetherVoid(World worldIn, long seed) {
         super(worldIn, false, seed);
-        world = worldIn;
     }
 
     @Override
@@ -25,5 +22,11 @@ public class ChunkGeneratorNetherVoid extends ChunkGeneratorHell {
     public void buildSurfaces(int p_185937_1_, int p_185937_2_, ChunkPrimer primer) {
         if (!worldGenSettings.netherVoid)
             super.buildSurfaces(p_185937_1_, p_185937_2_, primer);
+    }
+
+    @Override
+    public void populate(int x, int z) {
+        if (!worldGenSettings.netherVoid)
+            super.populate(x, z);
     }
 }
