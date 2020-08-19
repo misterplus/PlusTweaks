@@ -6,8 +6,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -24,10 +26,12 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import plus.misterplus.plustweaks.PlusTweaks;
 import plus.misterplus.plustweaks.compact.crafttweaker.actions.ActionSetLiquidInfinite;
 import plus.misterplus.plustweaks.config.Configs;
+import plus.misterplus.plustweaks.utils.EndGatewayJump;
 
 import java.util.Objects;
 
 import static plus.misterplus.plustweaks.config.Configs.dangerousSettings;
+import static plus.misterplus.plustweaks.config.Configs.genericSettings;
 import static plus.misterplus.plustweaks.utils.UtilityMethods.sendLocalizedMessage;
 
 @Mod.EventBusSubscriber(modid = PlusTweaks.MOD_ID)
@@ -76,8 +80,19 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!VALID_JAR && !event.player.getEntityWorld().isRemote)
-            event.player.sendMessage(new TextComponentString(String.format("[%s]Your copy of PlusTweaks is invalid, the author is not responsible for any bugs that might occur with this build.", PlusTweaks.MOD_NAME)));
+        if (!event.player.getEntityWorld().isRemote) {
+            if (!VALID_JAR) {
+                event.player.sendMessage(new TextComponentString(String.format("[%s]Your copy of PlusTweaks is invalid, the author is not responsible for any bugs that might occur with this build.", PlusTweaks.MOD_NAME)));
+            }
+            if (event.player.getEntityWorld().provider.getDimension() == 1) {
+                EntityPlayer player = event.player;
+                if (isFirstLogin(player, "plustweaks_gateway_jump")) {
+                    if (genericSettings.gatewayJump) {
+                        EndGatewayJump.execute(player, player.getEntityWorld());
+                    }
+                }
+            }
+        }
     }
 
     @Mod.EventHandler
@@ -91,5 +106,22 @@ public class EventHandler {
         if (event.getModID().equals(PlusTweaks.MOD_ID)) {
             ConfigManager.sync(PlusTweaks.MOD_ID, Config.Type.INSTANCE);
         }
+    }
+
+    //NBT related code from FTBLib
+    private static NBTTagCompound getPersistedData(EntityPlayer player, boolean createIfMissing) {
+        NBTTagCompound tag = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+        if (createIfMissing) {
+            player.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, tag);
+        }
+        return tag;
+    }
+
+    private static boolean isFirstLogin(EntityPlayer player, String key) {
+        if (!getPersistedData(player, false).getBoolean(key)) {
+            getPersistedData(player, true).setBoolean(key, true);
+            return true;
+        }
+        return false;
     }
 }

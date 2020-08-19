@@ -14,13 +14,13 @@ public class ChunkGeneratorOverworldVoid extends ChunkGeneratorOverworld {
     }
 
     @Override
-    public void setBlocksInChunk(int x, int z, ChunkPrimer primer){
+    public void setBlocksInChunk(int x, int z, ChunkPrimer primer) {
         if (!worldGenSettings.overworldVoid)
             super.setBlocksInChunk(x, z, primer);
     }
 
     @Override
-    public void replaceBiomeBlocks(int x, int z, ChunkPrimer primer, Biome[] biomesIn){
+    public void replaceBiomeBlocks(int x, int z, ChunkPrimer primer, Biome[] biomesIn) {
         if (!worldGenSettings.overworldVoid)
             super.replaceBiomeBlocks(x, z, primer, biomesIn);
     }

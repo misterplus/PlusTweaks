@@ -54,6 +54,9 @@ public class Configs {
 
         @Comment("Enable fix for pigmen crashing bug? (default: false)")
         public boolean pigmenBugFix = false;
+
+        @Comment("Teleport player to End Gateway upon entering a new world? (needs other mods to set spawn in End) (default: false)")
+        public boolean gatewayJump = false;
     }
 
     public static class WorldGenSettings {

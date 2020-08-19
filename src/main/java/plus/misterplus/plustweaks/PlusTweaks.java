@@ -25,7 +25,7 @@ public class PlusTweaks {
 
     public static final String MOD_ID = "plustweaks";
     public static final String MOD_NAME = "PlusTweaks";
-    public static final String VERSION = "1.4.3";
+    public static final String VERSION = "1.4.4";
 
     public static Logger logger = LogManager.getLogger(PlusTweaks.MOD_NAME);
 
@@ -73,5 +73,4 @@ public class PlusTweaks {
             logger.info(disabled);
         return result;
     }
-
 }

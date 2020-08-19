@@ -7,10 +7,10 @@ import static plus.misterplus.plustweaks.config.Configs.worldGenSettings;
 
 public class WorldProviderNetherVoid extends WorldProviderHell {
 
-	@Override
-	public IChunkGenerator createChunkGenerator() {
-		if (getDimension() == -1 && worldGenSettings.netherVoid)
-			return new ChunkGeneratorNetherVoid(world, world.getSeed());
-		return super.createChunkGenerator();
-	}
+    @Override
+    public IChunkGenerator createChunkGenerator() {
+        if (getDimension() == -1 && worldGenSettings.netherVoid)
+            return new ChunkGeneratorNetherVoid(world, world.getSeed());
+        return super.createChunkGenerator();
+    }
 }
