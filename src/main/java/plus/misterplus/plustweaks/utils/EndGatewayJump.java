@@ -96,7 +96,7 @@ public class EndGatewayJump {
         }
         exit = findHighestBlock(world, exit, 16, true);
         exit = exit.up(10);
-        if (!world.getBlockState(exit).equals(END_GATEWAY.getDefaultState())) {
+        if (!world.getBlockState(exit.down()).equals(END_GATEWAY.getDefaultState())) {
             createExitPortal(exit, world, entrance);
         }
         return exit;
