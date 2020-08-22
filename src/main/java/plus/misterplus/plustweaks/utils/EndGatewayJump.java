@@ -12,10 +12,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenEndGateway;
 import net.minecraft.world.gen.feature.WorldGenEndIsland;
+import plus.misterplus.plustweaks.PlusTweaks;
 
 import java.util.Random;
 
 import static net.minecraft.init.Blocks.END_GATEWAY;
+import static plus.misterplus.plustweaks.PlusTweaks.logger;
 
 public class EndGatewayJump {
 
@@ -96,8 +98,12 @@ public class EndGatewayJump {
         }
         exit = findHighestBlock(world, exit, 16, true);
         exit = exit.up(10);
-        if (!world.getBlockState(exit.down()).equals(END_GATEWAY.getDefaultState())) {
+        if (!world.getBlockState(exit.down(12)).equals(END_GATEWAY.getDefaultState())) {
+            logger.info("No existing portals, creating a new one...");
             createExitPortal(exit, world, entrance);
+        }
+        else {
+            logger.info("Existing portals found, skipping creation...");
         }
         return exit;
     }

@@ -1,7 +1,7 @@
 {
   "required": true,
   "refmap": "mixins.plustweaks.refmap.json",
-  "minVersion": "0.7.11",
+  "minVersion": "0.8",
   "package": "plus.misterplus.plustweaks.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
