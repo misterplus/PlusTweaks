@@ -138,7 +138,7 @@ public class EventHandler {
         if (genericSettings.noBottling && event.getItemStack().getItem() instanceof ItemGlassBottle) {
             RayTraceResult raytraceresult = rayTrace(event.getWorld(), event.getEntityPlayer(), true);
             World worldIn = event.getWorld();
-            if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK) {
+            if (raytraceresult != null && raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK) {
                 BlockPos blockpos = raytraceresult.getBlockPos();
                 if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER) {
                     event.setCanceled(true);
