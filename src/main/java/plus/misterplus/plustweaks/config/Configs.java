@@ -57,6 +57,9 @@ public class Configs {
 
         @Comment("Teleport player to End Gateway upon entering a new world? (needs other mods to set spawn in End) (default: false)")
         public boolean gatewayJump = false;
+
+        @Comment("Disable water bottling? (default: false)")
+        public boolean noBottling = false;
     }
 
     public static class WorldGenSettings {

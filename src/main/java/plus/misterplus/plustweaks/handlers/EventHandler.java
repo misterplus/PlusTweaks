@@ -5,12 +5,19 @@ import com.sci.torcherino.blocks.blocks.BlockTorcherino;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -21,6 +28,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import plus.misterplus.plustweaks.PlusTweaks;
@@ -123,5 +131,37 @@ public class EventHandler {
             return true;
         }
         return false;
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        if (genericSettings.noBottling && event.getItemStack().getItem() instanceof ItemGlassBottle) {
+            RayTraceResult raytraceresult = rayTrace(event.getWorld(), event.getEntityPlayer(), true);
+            World worldIn = event.getWorld();
+            if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK) {
+                BlockPos blockpos = raytraceresult.getBlockPos();
+                if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    private static RayTraceResult rayTrace(World worldIn, EntityPlayer playerIn, boolean useLiquids) {
+        float f = playerIn.rotationPitch;
+        float f1 = playerIn.rotationYaw;
+        double d0 = playerIn.posX;
+        double d1 = playerIn.posY + (double) playerIn.getEyeHeight();
+        double d2 = playerIn.posZ;
+        Vec3d vec3d = new Vec3d(d0, d1, d2);
+        float f2 = MathHelper.cos(-f1 * 0.017453292F - (float) Math.PI);
+        float f3 = MathHelper.sin(-f1 * 0.017453292F - (float) Math.PI);
+        float f4 = -MathHelper.cos(-f * 0.017453292F);
+        float f5 = MathHelper.sin(-f * 0.017453292F);
+        float f6 = f3 * f4;
+        float f7 = f2 * f4;
+        double d3 = playerIn.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+        Vec3d vec3d1 = vec3d.add((double) f6 * d3, (double) f5 * d3, (double) f7 * d3);
+        return worldIn.rayTraceBlocks(vec3d, vec3d1, useLiquids, !useLiquids, false);
     }
 }
